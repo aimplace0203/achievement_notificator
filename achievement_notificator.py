@@ -36,6 +36,7 @@ def importCsvFromAfb(downloadsDirPath):
     logger.debug(f'importCsvFromAfb: UserAgent: {ua.chrome}')
 
     options = Options()
+    options.add_argument('--headless')
     options.add_argument(f'user-agent={ua.chrome}')
 
     prefs = {
@@ -86,7 +87,7 @@ def getLatestDownloadedFileName(downloadsDirPath):
 
 def sendChatworkNotification(message):
     try:
-        url = f'https://api.chatwork.com/v2/rooms/{os.environ["CHATWORK_ROOM_ID_BALANCE"]}/messages'
+        url = f'https://api.chatwork.com/v2/rooms/{os.environ["CHATWORK_ROOM_ID_ACHIEVEMENT"]}/messages'
         headers = { 'X-ChatWorkToken': os.environ["CHATWORK_API_TOKEN"] }
         params = { 'body': message }
         requests.post(url, headers=headers, params=params)
