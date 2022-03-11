@@ -186,8 +186,8 @@ if __name__ == '__main__':
             message += '\n＋＋＋\n\n'
             message += f'プロモーション名：【{item[1]}】{item[2]}\n'
             message += f'サイト名：{item[3]}\n'
-            reward = '{:,}'.format(total)
-            message += f'報酬：¥{item[4]}\n'
+            reward = '{:,}'.format(int(item[4]))
+            message += f'報酬：¥{reward}\n'
             message += f'発生日：{item[5]}\n'
         message += '[/info]'
 
