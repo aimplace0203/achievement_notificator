@@ -102,7 +102,7 @@ def readCsvData(csvPath):
         for row in buf:
             yield row
 
-def getAchievementData(data):
+def getAchievementData(data, previous):
     header = data.pop(0)
     for i, d in enumerate(header):
         if re.search('番号', d):
@@ -118,18 +118,14 @@ def getAchievementData(data):
         elif re.search('発生日', d):
             date = int(i)
     
-    previous = []
-    if os.path.exists('./data'):
-        data = list(readCsvData('./data/data.csv'))
-        if len(data) > 0:
-            data.pop(0)
-            for d in data:
-                previous.append(d[0])
+    prev = []
+    for e in previous:
+        prev.append(e[0])
     else:
         os.makedirs('./data', exist_ok=True)
 
     for row in data:
-        if row[no] in previous:
+        if row[no] in prev:
             continue
         yield [row[no], row[pid], row[name], row[site], row[reward], row[date]]
 
@@ -160,17 +156,31 @@ if __name__ == '__main__':
         os.makedirs('./csv/', exist_ok=True)
         csvPath = getCsvPath('./csv/')
 
+        previous = []
+        if os.path.exists('./data'):
+            data = list(readCsvData('./data/data.csv'))
+            if len(data) > 0:
+                data.pop(0)
+                previous = data
+
         data = list(readCsvData(csvPath))
-        data = list(getAchievementData(data))
+        new = list(getAchievementData(data, previous))
 
         if len(data) == 0:
             logger.info("新規の成果発生件数はありません。")
             exit(0)
 
-        createCsvFile(data, './data/data.csv')
+        all_list = prev.extend(new)
+        createCsvFile(all_list, './data/data.csv')
+
+        total = 0
+        for item in all_list:
+            total += item[4]
+        total = {:,}'.format(total)
 
         message = "[info][title]【祝】新規成果発生のお知らせ！[/title]"
         message += f"新規で【{len(data)}件】成果が発生しました。\n"
+        message += f"本日の累計成果報酬は【¥{total}】成果が発生しました。\n"
         for item in data:
             message += '\n＋＋＋\n\n'
             message += f'プロモーション名：【{item[1]}】{item[2]}\n'
