@@ -138,7 +138,6 @@ def getCsvPath(dirPath):
 
 def createCsvFile(data, outputFilePath):
     header = ["番号","PID","プロモーションID","サイト名","報酬","発生日"]
-    print('before write')
     with open(outputFilePath, 'w', newline='', encoding='cp932') as f:
         writer = csv.writer(f, delimiter=',', lineterminator='\r\n',  quoting=csv.QUOTE_ALL)
         writer.writerow(header)
@@ -168,34 +167,34 @@ if __name__ == '__main__':
 
         if len(new) == 0:
             logger.info("No new achievements")
-            exit(0)
+        else:
+            all_list.extend(new)
+            os.makedirs('./data/', exist_ok=True)
+            createCsvFile(all_list, './data/data.csv')
 
-        all_list.extend(new)
-        os.makedirs('./data/', exist_ok=True)
-        createCsvFile(all_list, './data/data.csv')
+            total = 0
+            for item in all_list:
+                total += int(item[4])
+            total = '{:,}'.format(total)
 
-        total = 0
-        for item in all_list:
-            total += int(item[4])
-        total = '{:,}'.format(total)
+            message = "[info][title]【祝】新規成果発生のお知らせ！[/title]"
+            message += f"新規で【{len(data)}件】成果が発生しました。\n"
+            message += f"本日の累計成果報酬は【¥{total}】です。\n"
+            for item in new:
+                message += '\n＋＋＋\n\n'
+                message += f'プロモーション名：【{item[1]}】{item[2]}\n'
+                message += f'サイト名：{item[3]}\n'
+                reward = '{:,}'.format(int(item[4]))
+                message += f'報酬：¥{reward}\n'
+                message += f'発生日：{item[5]}\n'
+            message += '[/info]'
 
-        message = "[info][title]【祝】新規成果発生のお知らせ！[/title]"
-        message += f"新規で【{len(data)}件】成果が発生しました。\n"
-        message += f"本日の累計成果報酬は【¥{total}】です。\n"
-        for item in new:
-            message += '\n＋＋＋\n\n'
-            message += f'プロモーション名：【{item[1]}】{item[2]}\n'
-            message += f'サイト名：{item[3]}\n'
-            reward = '{:,}'.format(int(item[4]))
-            message += f'報酬：¥{reward}\n'
-            message += f'発生日：{item[5]}\n'
-        message += '[/info]'
-
-        sendChatworkNotification(message)
+            sendChatworkNotification(message)
 
         if not option == 0:
+            print("remove")
             shutil.rmtree('./csv/')
-            shutil.rmtree('./dir/')
+            shutil.rmtree('./data/')
 
         logger.info("achievement_notificator: Finish")
         exit(0)
