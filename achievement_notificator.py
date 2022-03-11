@@ -172,8 +172,6 @@ if __name__ == '__main__':
             message += f'報酬：{item[4]}\n'
         message += '[/info]'
 
-        print(message)
-        exit(0)
         sendChatworkNotification(message)
         logger.info("achievement_notificator: Finish")
         exit(0)
