@@ -115,6 +115,8 @@ def getAchievementData(data):
             site = int(i)
         elif re.search('報酬', d):
             reward = int(i)
+        elif re.search('発生日', d):
+            date = int(i)
     
     previous = []
     if os.path.exists('./data'):
@@ -129,7 +131,7 @@ def getAchievementData(data):
     for row in data:
         if row[no] in previous:
             continue
-        yield [row[no], row[pid], row[name], row[site], row[reward]]
+        yield [row[no], row[pid], row[name], row[site], row[reward], row[date]]
 
 def getCsvPath(dirPath):
     os.makedirs(dirPath, exist_ok=True)
@@ -141,7 +143,7 @@ def getCsvPath(dirPath):
     return csvPath
 
 def createCsvFile(data, outputFilePath):
-    header = ["番号","PID","プロモーションID","サイト名","報酬"]
+    header = ["番号","PID","プロモーションID","サイト名","報酬","発生日"]
     with open(outputFilePath, 'w', newline='', encoding='cp932') as f:
         writer = csv.writer(f, delimiter=',', lineterminator='\r\n',  quoting=csv.QUOTE_ALL)
         writer.writerow(header)
@@ -149,6 +151,10 @@ def createCsvFile(data, outputFilePath):
 
 ### main_script ###
 if __name__ == '__main__':
+
+    option = 0
+    if len(sys.argv) > 1:
+        option = int(sys.argv[1])
 
     try:
         os.makedirs('./csv/', exist_ok=True)
@@ -170,9 +176,15 @@ if __name__ == '__main__':
             message += f'プロモーション名：【{item[1]}】{item[2]}\n'
             message += f'サイト名：{item[3]}\n'
             message += f'報酬：{item[4]}\n'
+            message += f'発生日：{item[5]}\n'
         message += '[/info]'
 
         sendChatworkNotification(message)
+
+        if not option == 0:
+            shutil.rmtree('./csv/')
+            shutil.rmtree('./dir/')
+
         logger.info("achievement_notificator: Finish")
         exit(0)
     except Exception as err:
