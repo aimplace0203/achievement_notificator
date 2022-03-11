@@ -109,9 +109,7 @@ def readCsvData(csvPath, code):
 def getAchievementData(data, previous):
     header = data.pop(0)
     for i, d in enumerate(header):
-        if re.search('番号', d):
-            no = int(i)
-        elif re.search('発生日', d):
+        if re.search('発生日', d):
             date = int(i)
         elif re.search('報酬', d):
             reward = int(i)
@@ -122,14 +120,12 @@ def getAchievementData(data, previous):
         elif re.search('プロモーション名', d):
             name = int(i)
     
-    prev = []
-    for e in previous:
-        prev.append(e[0])
+    diff = len(data) - len(previous)
 
-    for row in data:
-        if row[no] in prev:
-            continue
-        yield [row[no], row[date], row[reward], row[site], row[pid], row[name]]
+    while diff > 0:
+        item = data.pop(0)
+        yield [item[date], item[reward], item[site], item[pid], item[name]]
+        diff -= 1
 
 def getCsvPath(dirPath):
     os.makedirs(dirPath, exist_ok=True)
@@ -141,7 +137,7 @@ def getCsvPath(dirPath):
     return csvPath
 
 def createCsvFile(data, outputFilePath):
-    header = ["番号","発生日","報酬","サイト名","PID","プロモーションID"]
+    header = ["発生日","報酬","サイト名","PID","プロモーションID"]
     with open(outputFilePath, 'w', newline='', encoding='utf-8') as f:
         writer = csv.writer(f, delimiter=',', lineterminator='\r\n',  quoting=csv.QUOTE_ALL)
         writer.writerow(header)
@@ -168,6 +164,7 @@ if __name__ == '__main__':
 
         data = list(readCsvData(csvPath, 'cp932'))
         new = list(getAchievementData(data, previous))
+        new.reverse()
 
         if len(new) == 0:
             logger.info("No new achievements")
@@ -178,7 +175,7 @@ if __name__ == '__main__':
 
             total = 0
             for item in all_list:
-                total += int(item[2])
+                total += int(item[1])
             total = '{:,}'.format(total)
 
             message = "[info][title]【祝】新規成果発生のお知らせ！[/title]"
@@ -186,12 +183,12 @@ if __name__ == '__main__':
             message += f"本日の累計成果報酬は【¥{total}】です。\n"
             for item in new:
                 message += '\n＋＋＋\n\n'
-                message += f'発生日：{item[1]}\n'
-                reward = '{:,}'.format(int(item[2]))
+                message += f'発生日：{item[0]}\n'
+                reward = '{:,}'.format(int(item[1]))
                 message += f'報酬：¥{reward}\n'
-                message += f'サイト名：{item[3]}\n'
-                message += f'プロモーションID：{item[4]}\n'
-                message += f'プロモーション名：{item[5]}\n'
+                message += f'サイト名：{item[2]}\n'
+                message += f'プロモーションID：{item[3]}\n'
+                message += f'プロモーション名：{item[4]}\n'
             message += '[/info]'
 
             sendChatworkNotification(message)
