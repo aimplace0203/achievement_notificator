@@ -176,7 +176,7 @@ if __name__ == '__main__':
 
         total = 0
         for item in all_list:
-            total += item[4]
+            total += int(item[4])
         total = '{:,}'.format(total)
 
         message = "[info][title]【祝】新規成果発生のお知らせ！[/title]"
