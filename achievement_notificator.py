@@ -181,7 +181,7 @@ if __name__ == '__main__':
 
         message = "[info][title]【祝】新規成果発生のお知らせ！[/title]"
         message += f"新規で【{len(data)}件】成果が発生しました。\n"
-        message += f"本日の累計成果報酬は【¥{total}】成果が発生しました。\n"
+        message += f"本日の累計成果報酬は【¥{total}】です。\n"
         for item in data:
             message += '\n＋＋＋\n\n'
             message += f'プロモーション名：【{item[1]}】{item[2]}\n'
