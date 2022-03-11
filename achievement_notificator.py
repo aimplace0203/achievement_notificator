@@ -121,8 +121,6 @@ def getAchievementData(data, previous):
     prev = []
     for e in previous:
         prev.append(e[0])
-    else:
-        os.makedirs('./data', exist_ok=True)
 
     for row in data:
         if row[no] in prev:
@@ -140,6 +138,7 @@ def getCsvPath(dirPath):
 
 def createCsvFile(data, outputFilePath):
     header = ["番号","PID","プロモーションID","サイト名","報酬","発生日"]
+    print('before write')
     with open(outputFilePath, 'w', newline='', encoding='cp932') as f:
         writer = csv.writer(f, delimiter=',', lineterminator='\r\n',  quoting=csv.QUOTE_ALL)
         writer.writerow(header)
@@ -162,6 +161,7 @@ if __name__ == '__main__':
             if len(data) > 0:
                 data.pop(0)
                 previous = data
+        all_list = previous
 
         data = list(readCsvData(csvPath))
         new = list(getAchievementData(data, previous))
@@ -170,7 +170,8 @@ if __name__ == '__main__':
             logger.info("新規の成果発生件数はありません。")
             exit(0)
 
-        all_list = previous.extend(new)
+        all_list.extend(new)
+        os.makedirs('./data/', exist_ok=True)
         createCsvFile(all_list, './data/data.csv')
 
         total = 0
