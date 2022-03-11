@@ -52,6 +52,7 @@ def importCsvFromAfb(downloadsDirPath):
         
         driver.get(url)
         driver.maximize_window()
+        sleep(3)
         driver.implicitly_wait(30)
 
         driver.find_element_by_xpath('//input[@name="login_name"]').send_keys(login)
@@ -59,17 +60,20 @@ def importCsvFromAfb(downloadsDirPath):
         driver.find_element_by_xpath('//button[@type="submit"]').click()
 
         logger.debug('importCsvFromAfb: afb login')
+        sleep(3)
         driver.implicitly_wait(60)
         
         driver.find_element_by_xpath('//a[@href="/pa/result/"]').click()
+        sleep(3)
         driver.implicitly_wait(30)
 
         driver.find_element_by_xpath(f'//input[@value="td"]').click()
         logger.info('importCsvFromAfb: select date range')
+        sleep(3)
         driver.implicitly_wait(30)
 
         driver.find_element_by_xpath('//input[@src="/assets/img/report/btn_original_csv.gif"]').click()
-        sleep(10)
+        sleep(5)
 
         driver.close()
         driver.quit()
@@ -174,7 +178,7 @@ if __name__ == '__main__':
 
             total = 0
             for item in all_list:
-                total += int(item[4])
+                total += int(item[2])
             total = '{:,}'.format(total)
 
             message = "[info][title]【祝】新規成果発生のお知らせ！[/title]"
