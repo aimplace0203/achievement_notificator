@@ -166,7 +166,7 @@ if __name__ == '__main__':
         data = list(readCsvData(csvPath))
         new = list(getAchievementData(data, previous))
 
-        if len(data) == 0:
+        if len(new) == 0:
             logger.info("新規の成果発生件数はありません。")
             exit(0)
 
