@@ -96,8 +96,8 @@ def sendChatworkNotification(message):
         exit(1)
 
 ### Achievement! ###
-def readCsvData(csvPath):
-    with open(csvPath, newline='', encoding='cp932') as csvfile:
+def readCsvData(csvPath, code):
+    with open(csvPath, newline='', encoding=code) as csvfile:
         buf = csv.reader(csvfile, delimiter=',', lineterminator='\r\n', skipinitialspace=True)
         for row in buf:
             yield row
@@ -138,7 +138,7 @@ def getCsvPath(dirPath):
 
 def createCsvFile(data, outputFilePath):
     header = ["番号","PID","プロモーションID","サイト名","報酬","発生日"]
-    with open(outputFilePath, 'w', newline='', encoding='cp932') as f:
+    with open(outputFilePath, 'w', newline='', encoding='utf-8') as f:
         writer = csv.writer(f, delimiter=',', lineterminator='\r\n',  quoting=csv.QUOTE_ALL)
         writer.writerow(header)
         writer.writerows(data)
@@ -156,13 +156,13 @@ if __name__ == '__main__':
 
         previous = []
         if os.path.exists('./data'):
-            data = list(readCsvData('./data/data.csv'))
+            data = list(readCsvData('./data/data.csv', 'utf-8'))
             if len(data) > 0:
                 data.pop(0)
                 previous = data
         all_list = previous
 
-        data = list(readCsvData(csvPath))
+        data = list(readCsvData(csvPath, 'cp932'))
         new = list(getAchievementData(data, previous))
 
         if len(new) == 0:
