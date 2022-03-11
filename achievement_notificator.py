@@ -167,7 +167,7 @@ if __name__ == '__main__':
         new = list(getAchievementData(data, previous))
 
         if len(new) == 0:
-            logger.info("新規の成果発生件数はありません。")
+            logger.info("No new achievements")
             exit(0)
 
         all_list.extend(new)
