@@ -107,16 +107,16 @@ def getAchievementData(data, previous):
     for i, d in enumerate(header):
         if re.search('番号', d):
             no = int(i)
+        elif re.search('発生日', d):
+            date = int(i)
+        elif re.search('報酬', d):
+            reward = int(i)
+        elif re.search('サイト名', d):
+            site = int(i)
         elif re.search('PID', d):
             pid = int(i)
         elif re.search('プロモーション名', d):
             name = int(i)
-        elif re.search('サイト名', d):
-            site = int(i)
-        elif re.search('報酬', d):
-            reward = int(i)
-        elif re.search('発生日', d):
-            date = int(i)
     
     prev = []
     for e in previous:
@@ -125,7 +125,7 @@ def getAchievementData(data, previous):
     for row in data:
         if row[no] in prev:
             continue
-        yield [row[no], row[pid], row[name], row[site], row[reward], row[date]]
+        yield [row[no], row[date], row[reward], row[site], row[pid], row[name]]
 
 def getCsvPath(dirPath):
     os.makedirs(dirPath, exist_ok=True)
@@ -137,7 +137,7 @@ def getCsvPath(dirPath):
     return csvPath
 
 def createCsvFile(data, outputFilePath):
-    header = ["番号","PID","プロモーションID","サイト名","報酬","発生日"]
+    header = ["番号","発生日","報酬","サイト名","PID","プロモーションID"]
     with open(outputFilePath, 'w', newline='', encoding='utf-8') as f:
         writer = csv.writer(f, delimiter=',', lineterminator='\r\n',  quoting=csv.QUOTE_ALL)
         writer.writerow(header)
@@ -182,11 +182,12 @@ if __name__ == '__main__':
             message += f"本日の累計成果報酬は【¥{total}】です。\n"
             for item in new:
                 message += '\n＋＋＋\n\n'
-                message += f'プロモーション名：【{item[1]}】{item[2]}\n'
-                message += f'サイト名：{item[3]}\n'
-                reward = '{:,}'.format(int(item[4]))
+                message += f'発生日：{item[1]}\n'
+                reward = '{:,}'.format(int(item[2]))
                 message += f'報酬：¥{reward}\n'
-                message += f'発生日：{item[5]}\n'
+                message += f'サイト名：{item[3]}\n'
+                message += f'プロモーションID：{item[4]}\n'
+                message += f'プロモーション名：{item[5]}\n'
             message += '[/info]'
 
             sendChatworkNotification(message)
