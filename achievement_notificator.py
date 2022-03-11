@@ -170,7 +170,7 @@ if __name__ == '__main__':
             logger.info("新規の成果発生件数はありません。")
             exit(0)
 
-        all_list = prev.extend(new)
+        all_list = previous.extend(new)
         createCsvFile(all_list, './data/data.csv')
 
         total = 0
