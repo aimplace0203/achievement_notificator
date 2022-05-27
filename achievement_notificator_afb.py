@@ -146,9 +146,11 @@ def createCsvFile(data, outputFilePath):
 ### main_script ###
 if __name__ == '__main__':
 
-    option = 0
     if len(sys.argv) > 1:
-        option = int(sys.argv[1])
+        print("Complete remove")
+        shutil.rmtree('./csv/afb/')
+        shutil.rmtree('./data/afb/')
+        exit(0)
 
     try:
         os.makedirs('./csv/afb/', exist_ok=True)
@@ -192,11 +194,6 @@ if __name__ == '__main__':
             message += '[/info]'
 
             sendChatworkNotification(message)
-
-        if not option == 0:
-            print("remove")
-            shutil.rmtree('./csv/afb/')
-            shutil.rmtree('./data/afb/')
 
         logger.info("achievement_notificator: Finish")
         exit(0)

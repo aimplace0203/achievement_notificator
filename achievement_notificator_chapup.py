@@ -164,9 +164,11 @@ def getCsvPath(dirPath):
 ### main_script ###
 if __name__ == '__main__':
 
-    option = 0
     if len(sys.argv) > 1:
-        option = int(sys.argv[1])
+        print("Complete remove")
+        shutil.rmtree('./csv/chapup/')
+        shutil.rmtree('./data/chapup/')
+        exit(0)
 
     code = dict()
     output = dict()
@@ -203,13 +205,7 @@ if __name__ == '__main__':
                 message += f'媒体名：{code[item[0]]}\n'
             message += '[/info]'
 
-            print(message)
-#            sendChatworkNotification(message)
-
-        if not option == 0:
-            print("remove")
-            shutil.rmtree('./csv/chapup/')
-            shutil.rmtree('./data/chapup/')
+            sendChatworkNotification(message)
 
         logger.info("achievement_notificator: Finish")
         exit(0)
