@@ -151,12 +151,12 @@ if __name__ == '__main__':
         option = int(sys.argv[1])
 
     try:
-        os.makedirs('./csv/', exist_ok=True)
-        csvPath = getCsvPath('./csv/')
+        os.makedirs('./csv/afb/', exist_ok=True)
+        csvPath = getCsvPath('./csv/afb/')
 
         previous = []
-        if os.path.exists('./data'):
-            data = list(readCsvData('./data/data.csv', 'utf-8'))
+        if os.path.exists('./data/afb/data.csv'):
+            data = list(readCsvData('./data/afb/data.csv', 'utf-8'))
             if len(data) > 0:
                 data.pop(0)
                 previous = data
@@ -195,8 +195,8 @@ if __name__ == '__main__':
 
         if not option == 0:
             print("remove")
-            shutil.rmtree('./csv/')
-            shutil.rmtree('./data/')
+            shutil.rmtree('./csv/afb/')
+            shutil.rmtree('./data/afb/')
 
         logger.info("achievement_notificator: Finish")
         exit(0)
