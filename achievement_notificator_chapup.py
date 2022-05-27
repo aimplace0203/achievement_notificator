@@ -36,7 +36,7 @@ def importCsvFromChapup(downloadsDirPath):
     logger.debug(f'importCsvFromChapup: UserAgent: {ua.chrome}')
 
     options = Options()
-#    options.add_argument('--headless')
+    options.add_argument('--headless')
     options.add_argument(f'user-agent={ua.chrome}')
 
     prefs = {
@@ -184,18 +184,21 @@ if __name__ == '__main__':
         data = list(readCsvData(csvPath, 'cp932'))
         new = list(getAchievementData(data, prev))
 
-        total = 0
+        n = 0
         for item in new:
-            total += int(item[1])
-        if total == 0:
+            n += int(item[1])
+        if n == 0:
             logger.info("No new achievements")
         else:
+            total = 0
+            for v in output.values():
+                total += int(v)
             os.makedirs('./data/chapup/', exist_ok=True)
             with open('./data/chapup/data.json', 'w') as f:
                 json.dump(output, f, ensure_ascii=False, indent=4)
 
             message = "[info][title]【祝】新規成果発生のお知らせ！[/title]"
-            message += f"新規で【{total}件】申込が発生しました。\n"
+            message += f"新規で【{n}件】申込が発生しました。\n"
             message += f"本日の累計成果報酬は【¥{total * 22000}】です。\n"
             for item in new:
                 message += '\n＋＋＋\n\n'
@@ -205,7 +208,8 @@ if __name__ == '__main__':
                 message += f'媒体名：{code[item[0]]}\n'
             message += '[/info]'
 
-            sendChatworkNotification(message)
+            print(message)
+            #sendChatworkNotification(message)
 
         logger.info("achievement_notificator: Finish")
         exit(0)
