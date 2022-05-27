@@ -173,7 +173,7 @@ if __name__ == '__main__':
         else:
             all_list.extend(new)
             os.makedirs('./data/', exist_ok=True)
-            createCsvFile(all_list, './data/data.csv')
+            createCsvFile(all_list, './data/afb/data.csv')
 
             total = 0
             for item in all_list:
