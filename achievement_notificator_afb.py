@@ -172,7 +172,7 @@ if __name__ == '__main__':
             logger.info("No new achievements")
         else:
             all_list.extend(new)
-            os.makedirs('./data/', exist_ok=True)
+            os.makedirs('./data/afb/', exist_ok=True)
             createCsvFile(all_list, './data/afb/data.csv')
 
             total = 0
