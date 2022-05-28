@@ -208,8 +208,8 @@ if __name__ == '__main__':
                 message += f'媒体名：{code[item[0]]}\n'
             message += '[/info]'
 
-            print(message)
-            #sendChatworkNotification(message)
+            #print(message)
+            sendChatworkNotification(message)
 
         logger.info("achievement_notificator: Finish")
         exit(0)
