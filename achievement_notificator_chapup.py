@@ -148,7 +148,11 @@ def getAchievementData(data, prev):
                 yield [k, v]
     else:
         for k, v in output.items():
-            diff = int(v) - int(prev[k])
+            try:
+                diff = int(v) - int(prev[k])
+            except Exception as err:
+                logger.debug(f'achievement_notificator: {err}')
+                diff = int(v)
             if diff > 0:
                 yield [k, diff]
 
