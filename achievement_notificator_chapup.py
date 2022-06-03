@@ -203,7 +203,7 @@ if __name__ == '__main__':
 
             message = "[info][title]【祝】新規成果発生のお知らせ！[/title]"
             message += f"新規で【{n}件】申込が発生しました。\n"
-            message += f"本日の累計成果報酬は【¥{total * 22000}】です。\n"
+            message += f"本日の累計申込件数 : 成果報酬は【{total}件 : ¥{total * 22000}】です。\n"
             for item in new:
                 message += '\n＋＋＋\n\n'
                 message += f'新規発生件数：{item[1]}\n'
