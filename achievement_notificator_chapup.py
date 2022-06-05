@@ -6,7 +6,6 @@ import json
 import shutil
 import datetime
 import requests
-import gspread
 from time import sleep
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -15,7 +14,6 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
 from fake_useragent import UserAgent
 from webdriver_manager.chrome import ChromeDriverManager
-from oauth2client.service_account import ServiceAccountCredentials
 
 # Logger setting
 from logging import getLogger, FileHandler, DEBUG
