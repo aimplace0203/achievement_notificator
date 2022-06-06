@@ -130,3 +130,5 @@ dmypy.json
 
 csv/*
 data/*
+
+spreadsheet.json
