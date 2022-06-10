@@ -150,7 +150,7 @@ def getAchievementData(data, day):
             res['line'] += int(item[cnt])
         elif re.search('tiktok', code[id]):
             res['tiktok'] += int(item[cnt])
-    logger.info(res)
+    logger.info(f'date: {day}, data: {res}')
     
     writeOrderData(res, day)
 
@@ -181,7 +181,7 @@ def writeOrderData(data, day):
 ### main_script ###
 if __name__ == '__main__':
 
-    r = 2
+    r = 1
     if len(sys.argv) > 1:
         r = 6
 
@@ -189,7 +189,7 @@ if __name__ == '__main__':
     try:
         os.makedirs('./csv/chapup2/', exist_ok=True)
 
-        for i in range(1, r):
+        for i in range(0, r):
             day = today - datetime.timedelta(days=i)
             csvPath = getCsvPath('./csv/chapup2/', day)
             data = list(readCsvData(csvPath, 'cp932'))
