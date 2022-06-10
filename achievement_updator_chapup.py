@@ -128,16 +128,31 @@ def getAchievementData(data, day):
             cnt = int(i)
     
     global code
-    search_order = 0
-    ad_order = 0
+    res = {
+        'yss': 0,
+        'gsn': 0,
+        'yda': 0,
+        'gdn': 0,
+        'line': 0,
+        'tiktok': 0
+    }
     for item in data:
         id = item[ad]
-        if re.search('YSS|GSN', code[id]):
-            search_order += int(item[cnt])
-        else:
-            ad_order += int(item[cnt])
+        if re.search('YSS', code[id]):
+            res['yss'] += int(item[cnt])
+        elif re.search('GSN', code[id]):
+            res['gsn'] += int(item[cnt])
+        elif re.search('YDA', code[id]):
+            res['yda'] += int(item[cnt])
+        elif re.search('GDN', code[id]):
+            res['gdn'] += int(item[cnt])
+        elif re.search('LINE', code[id]):
+            res['line'] += int(item[cnt])
+        elif re.search('tiktok', code[id]):
+            res['tiktok'] += int(item[cnt])
+    logger.info(res)
     
-    writeOrderData(search_order, ad_order, day)
+    writeOrderData(res, day)
 
 def getCsvPath(dirPath, day):
     os.makedirs(dirPath, exist_ok=True)
@@ -148,15 +163,19 @@ def getCsvPath(dirPath, day):
 
     return csvPath
 
-def writeOrderData(search_order, ad_order, day):
+def writeOrderData(data, day):
     SPREADSHEET_ID = os.environ['HAIR_PROMOTION_SSID']
     scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
     credentials = ServiceAccountCredentials.from_json_keyfile_name('spreadsheet.json', scope)
     gc = gspread.authorize(credentials)
     sheet = gc.open_by_key(SPREADSHEET_ID).worksheet(day.strftime("%Y%m"))
 
-    sheet.update_cell(4 + int(day.strftime("%d")), 4, search_order)
-    sheet.update_cell(4 + int(day.strftime("%d")), 5, ad_order)
+    sheet.update_cell(4 + int(day.strftime("%d")), 15, data['gsn'])
+    sheet.update_cell(4 + int(day.strftime("%d")), 18, data['gdn'])
+    sheet.update_cell(4 + int(day.strftime("%d")), 21, data['yss'])
+    sheet.update_cell(4 + int(day.strftime("%d")), 24, data['yda'])
+    sheet.update_cell(4 + int(day.strftime("%d")), 27, data['line'])
+    sheet.update_cell(4 + int(day.strftime("%d")), 30, data['tiktok'])
 
 
 ### main_script ###
