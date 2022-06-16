@@ -148,7 +148,7 @@ def getAchievementData(data, day):
             res['gdn'] += int(item[cnt])
         elif re.search('LINE', code[id]):
             res['line'] += int(item[cnt])
-        elif re.search('tiktok', code[id]):
+        elif re.search('TikTok', code[id]):
             res['tiktok'] += int(item[cnt])
     logger.info(f'date: {day}, data: {res}')
     
