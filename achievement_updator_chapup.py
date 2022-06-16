@@ -138,17 +138,17 @@ def getAchievementData(data, day):
     }
     for item in data:
         id = item[ad]
-        if re.search('YSS', code[id]):
+        if re.search('yss', code[id], re.IGNORECASE):
             res['yss'] += int(item[cnt])
-        elif re.search('GSN', code[id]):
+        elif re.search('gsn', code[id], re.IGNORECASE):
             res['gsn'] += int(item[cnt])
-        elif re.search('YDA', code[id]):
+        elif re.search('yda', code[id], re.IGNORECASE):
             res['yda'] += int(item[cnt])
-        elif re.search('GDN', code[id]):
+        elif re.search('gdn', code[id], re.IGNORECASE):
             res['gdn'] += int(item[cnt])
-        elif re.search('LINE', code[id]):
+        elif re.search('line', code[id], re.IGNORECASE):
             res['line'] += int(item[cnt])
-        elif re.search('TikTok', code[id]):
+        elif re.search('tiktok', code[id], re.IGNORECASE):
             res['tiktok'] += int(item[cnt])
     logger.info(f'date: {day}, data: {res}')
     
