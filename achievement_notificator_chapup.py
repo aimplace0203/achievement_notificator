@@ -27,13 +27,13 @@ logger.addHandler(handler)
 logger.propagate = False
 
 ### functions ###
-def importCsvFromChapup(downloadsDirPath):
-    login = os.environ['CHAPUP_ID']
-    password = os.environ['CHAPUP_PASS']
-    url = f"https://{login}:{password}@chapup.jp/media_adv/"
+def importCsvFromMedia(downloadsDirPath, uname, domain):
+    login = os.environ[f'{uname}_ID']
+    password = os.environ[f'{uname}_PASS']
+    url = f"https://{login}:{password}@{domain}/media_adv/"
 
     ua = UserAgent()
-    logger.debug(f'importCsvFromChapup: UserAgent: {ua.chrome}')
+    logger.debug(f'importCsvFromMedia: UserAgent: {ua.chrome}')
 
     options = Options()
     options.add_argument('--headless')
@@ -93,13 +93,13 @@ def importCsvFromChapup(downloadsDirPath):
         driver.find_element_by_name('kikan').click()
         sleep(3)
         driver.find_element_by_name('csv').click()
-        logger.info('importCsvFromChapup: Complete download')
+        logger.info('importCsvFromMedia: Complete download')
         sleep(3)
 
         driver.close()
         driver.quit()
     except Exception as err:
-        logger.debug(f'Error: importCsvFromChapup: {err}')
+        logger.debug(f'Error: importCsvFromMedia: {err}')
         exit(1)
 
 def getLatestDownloadedFileName(downloadsDirPath):
@@ -110,9 +110,9 @@ def getLatestDownloadedFileName(downloadsDirPath):
         key=os.path.getctime
     )
 
-def sendChatworkNotification(message):
+def sendChatworkNotification(message, uname):
     try:
-        url = f'https://api.chatwork.com/v2/rooms/{os.environ["CHATWORK_ROOM_ID_CHAPUP"]}/messages'
+        url = f'https://api.chatwork.com/v2/rooms/{os.environ[f"CHATWORK_ROOM_ID_{uname}"]}/messages'
         headers = { 'X-ChatWorkToken': os.environ["CHATWORK_API_TOKEN"] }
         params = { 'body': message }
         requests.post(url, headers=headers, params=params)
@@ -156,9 +156,9 @@ def getAchievementData(data, prev):
             if diff > 0:
                 yield [k, diff]
 
-def getCsvPath(dirPath):
+def getCsvPath(dirPath, uname, domain):
     os.makedirs(dirPath, exist_ok=True)
-    importCsvFromChapup(dirPath)
+    importCsvFromMedia(dirPath, uname, domain)
 
     csvPath = getLatestDownloadedFileName(dirPath)
     logger.info(f"achievement_notificator: download completed: {csvPath}")
@@ -168,21 +168,37 @@ def getCsvPath(dirPath):
 ### main_script ###
 if __name__ == '__main__':
 
-    if len(sys.argv) > 1:
-        print("Complete remove")
+    if len(sys.argv) <= 1:
+        logger.error('Invalid parameter')
+        exit(1)
+
+    if sys.argv[1] == 'chapup':
+        name = 'chapup'
+        uname = 'CHAPUP'
+        domain = 'chapup.jp'
+    elif sys.argv[1] == 'bresmile':
+        name = 'bresmile'
+        uname = 'BRESMILE'
+        domain = 'bresmile.jp'
+    elif sys.argv[1] == 'cleanup':
         shutil.rmtree('./csv/chapup/')
         shutil.rmtree('./data/chapup/')
+        shutil.rmtree('./csv/bresmile/')
+        shutil.rmtree('./data/bresmile/')
         exit(0)
+    else:
+        logger.error('Invalid parameter')
+        exit(1)
 
     code = dict()
     output = dict()
     try:
-        os.makedirs('./csv/chapup/', exist_ok=True)
-        csvPath = getCsvPath('./csv/chapup/')
+        os.makedirs(f'./csv/{name}/', exist_ok=True)
+        csvPath = getCsvPath(f'./csv/{name}/', uname, domain)
 
         prev = {}
-        if os.path.exists('./data/chapup/data.json'):
-            with open('./data/chapup/data.json', 'r') as f:
+        if os.path.exists(f'./data/{name}/data.json'):
+            with open(f'./data/{name}/data.json', 'r') as f:
                 prev = json.load(f)
 
         data = list(readCsvData(csvPath, 'cp932'))
@@ -192,13 +208,13 @@ if __name__ == '__main__':
         for item in new:
             n += int(item[1])
         if n == 0:
-            logger.info("chapup: No new achievements")
+            logger.info(f"{name}: No new achievements")
         else:
             total = 0
             for v in output.values():
                 total += int(v)
-            os.makedirs('./data/chapup/', exist_ok=True)
-            with open('./data/chapup/data.json', 'w') as f:
+            os.makedirs(f'./data/{name}/', exist_ok=True)
+            with open(f'./data/{name}/data.json', 'w') as f:
                 json.dump(output, f, ensure_ascii=False, indent=4)
 
             message = "[info][title]【祝】新規成果発生のお知らせ！[/title]"
@@ -213,7 +229,7 @@ if __name__ == '__main__':
             message += '[/info]'
 
             #print(message)
-            sendChatworkNotification(message)
+            sendChatworkNotification(message, uname)
 
         logger.info("achievement_notificator: Finish")
         exit(0)
