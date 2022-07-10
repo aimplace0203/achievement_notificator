@@ -176,10 +176,12 @@ if __name__ == '__main__':
         name = 'chapup'
         uname = 'CHAPUP'
         domain = 'chapup.jp'
+        price = 22000
     elif sys.argv[1] == 'bresmile':
         name = 'bresmile'
         uname = 'BRESMILE'
         domain = 'bresmile.jp'
+        price = 10000
     elif sys.argv[1] == 'cleanup':
         shutil.rmtree('./csv/chapup/')
         shutil.rmtree('./data/chapup/')
@@ -219,11 +221,11 @@ if __name__ == '__main__':
 
             message = "[info][title]【祝】新規成果発生のお知らせ！[/title]"
             message += f"新規で【{n}件】申込が発生しました。\n"
-            message += f"本日の累計申込件数 : 成果報酬は【{total}件 : ¥{total * 22000}】です。\n"
+            message += f"本日の累計申込件数 : 成果報酬は【{total}件 : ¥{total * price}】です。\n"
             for item in new:
                 message += '\n＋＋＋\n\n'
                 message += f'新規発生件数：{item[1]}\n'
-                reward = '{:,}'.format(int(item[1]) * 22000)
+                reward = '{:,}'.format(int(item[1]) * price)
                 message += f'報酬：¥{reward}\n'
                 message += f'媒体名：{code[item[0]]}\n'
             message += '[/info]'
