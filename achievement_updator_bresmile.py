@@ -187,16 +187,16 @@ if __name__ == '__main__':
 
     code = dict()
     try:
-        os.makedirs('./csv/chapup2/', exist_ok=True)
+        os.makedirs('./csv/bresmile/', exist_ok=True)
 
         for i in range(0, r):
             day = today - datetime.timedelta(days=i)
-            csvPath = getCsvPath('./csv/chapup2/', day)
+            csvPath = getCsvPath('./csv/bresmile/', day)
             data = list(readCsvData(csvPath, 'cp932'))
             getAchievementData(data, day)
 
         if r > 2:
-            shutil.rmtree('./csv/chapup2/')
+            shutil.rmtree('./csv/bresmile/')
         logger.info("achievement_notificator: Finish")
         exit(0)
     except Exception as err:
