@@ -81,6 +81,12 @@ def importCsvFromChapup(downloadsDirPath, day):
         select = Select(dropdown)
         select.select_by_value(str(day.day))
 
+        driver.find_element_by_name('kikan').click()
+        sleep(3)
+        driver.find_element_by_name('csv').click()
+        logger.info('importCsvFromChapup: Complete download')
+        sleep(3)
+
         soup = BeautifulSoup(driver.page_source, "html.parser")
         els = iter(soup.find_all("td", align="center"))
         global code
@@ -91,12 +97,6 @@ def importCsvFromChapup(downloadsDirPath, day):
                 code[id] = name
             except StopIteration:
                 break
-
-        driver.find_element_by_name('kikan').click()
-        sleep(3)
-        driver.find_element_by_name('csv').click()
-        logger.info('importCsvFromChapup: Complete download')
-        sleep(3)
 
         driver.close()
         driver.quit()
@@ -183,7 +183,7 @@ if __name__ == '__main__':
 
     r = 1
     if len(sys.argv) > 1:
-        r = 6
+        r = 20
 
     code = dict()
     try:
