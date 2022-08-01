@@ -170,12 +170,13 @@ def writeOrderData(data, day):
     gc = gspread.authorize(credentials)
     sheet = gc.open_by_key(SPREADSHEET_ID).worksheet(day.strftime("%Y%m"))
 
-    sheet.update_cell(4 + int(day.strftime("%d")), 15, data['gsn'])
-    sheet.update_cell(4 + int(day.strftime("%d")), 18, data['gdn'])
-    sheet.update_cell(4 + int(day.strftime("%d")), 21, data['yss'])
-    sheet.update_cell(4 + int(day.strftime("%d")), 24, data['yda'])
-    sheet.update_cell(4 + int(day.strftime("%d")), 27, data['line'])
-    sheet.update_cell(4 + int(day.strftime("%d")), 30, data['tiktok'])
+    sheet.update_cell(4 + int(day.strftime("%d")), 6, data['banner'])
+    sheet.update_cell(4 + int(day.strftime("%d")), 16, data['gsn'])
+    sheet.update_cell(4 + int(day.strftime("%d")), 19, data['gdn'])
+    sheet.update_cell(4 + int(day.strftime("%d")), 22, data['yss'])
+    sheet.update_cell(4 + int(day.strftime("%d")), 25, data['yda'])
+    sheet.update_cell(4 + int(day.strftime("%d")), 28, data['line'])
+    sheet.update_cell(4 + int(day.strftime("%d")), 31, data['tiktok'])
 
 
 ### main_script ###
