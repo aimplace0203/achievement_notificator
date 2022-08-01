@@ -185,8 +185,8 @@ def writeUploadData(linka, afb, day):
     gc = gspread.authorize(credentials)
     sheet = gc.open_by_key(SPREADSHEET_ID).worksheet(day.strftime("%Y%m"))
 
-    sheet.update_cell(4 + int(day.strftime("%d")), 7, linka)
-    sheet.update_cell(4 + int(day.strftime("%d")), 9, afb)
+    sheet.update_cell(4 + int(day.strftime("%d")), 8, linka)
+    sheet.update_cell(4 + int(day.strftime("%d")), 10, afb)
 
 ### main_script ###
 if __name__ == '__main__':
