@@ -134,7 +134,8 @@ def getAchievementData(data, day):
         'yda': 0,
         'gdn': 0,
         'line': 0,
-        'tiktok': 0
+        'tiktok': 0,
+        'banner': 0
     }
     for item in data:
         id = item[ad]
@@ -150,6 +151,8 @@ def getAchievementData(data, day):
             res['line'] += int(item[cnt])
         elif re.search('tiktok', code[id], re.IGNORECASE):
             res['tiktok'] += int(item[cnt])
+        elif re.search('記事離脱用', code[id], re.IGNORECASE):
+            res['banner'] += int(item[cnt])
     logger.info(f'date: {day}, data: {res}')
     
     writeOrderData(res, day)
