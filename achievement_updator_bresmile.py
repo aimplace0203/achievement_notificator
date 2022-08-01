@@ -81,6 +81,12 @@ def importCsvFromChapup(downloadsDirPath, day):
         select = Select(dropdown)
         select.select_by_value(str(day.day))
 
+        driver.find_element_by_name('kikan').click()
+        sleep(3)
+        driver.find_element_by_name('csv').click()
+        logger.info('importCsvFromBresmile: Complete download')
+        sleep(3)
+
         soup = BeautifulSoup(driver.page_source, "html.parser")
         els = iter(soup.find_all("td", align="center"))
         global code
@@ -91,12 +97,6 @@ def importCsvFromChapup(downloadsDirPath, day):
                 code[id] = name
             except StopIteration:
                 break
-
-        driver.find_element_by_name('kikan').click()
-        sleep(3)
-        driver.find_element_by_name('csv').click()
-        logger.info('importCsvFromBresmile: Complete download')
-        sleep(3)
 
         driver.close()
         driver.quit()
@@ -134,7 +134,8 @@ def getAchievementData(data, day):
         'yda': 0,
         'gdn': 0,
         'line': 0,
-        'tiktok': 0
+        'tiktok': 0,
+        'banner': 0
     }
     for item in data:
         id = item[ad]
@@ -150,6 +151,8 @@ def getAchievementData(data, day):
             res['line'] += int(item[cnt])
         elif re.search('tiktok', code[id], re.IGNORECASE):
             res['tiktok'] += int(item[cnt])
+        elif re.search('離脱防止', code[id], re.IGNORECASE):
+            res['banner'] += int(item[cnt])
     logger.info(f'date: {day}, data: {res}')
     
     writeOrderData(res, day)
@@ -170,12 +173,13 @@ def writeOrderData(data, day):
     gc = gspread.authorize(credentials)
     sheet = gc.open_by_key(SPREADSHEET_ID).worksheet(day.strftime("%Y%m"))
 
-    sheet.update_cell(4 + int(day.strftime("%d")), 13, data['gsn'])
-    sheet.update_cell(4 + int(day.strftime("%d")), 16, data['gdn'])
-    sheet.update_cell(4 + int(day.strftime("%d")), 19, data['yss'])
-    sheet.update_cell(4 + int(day.strftime("%d")), 22, data['yda'])
-    sheet.update_cell(4 + int(day.strftime("%d")), 25, data['line'])
-    sheet.update_cell(4 + int(day.strftime("%d")), 28, data['tiktok'])
+    sheet.update_cell(4 + int(day.strftime("%d")), 6, data['banner'])
+    sheet.update_cell(4 + int(day.strftime("%d")), 14, data['gsn'])
+    sheet.update_cell(4 + int(day.strftime("%d")), 17, data['gdn'])
+    sheet.update_cell(4 + int(day.strftime("%d")), 20, data['yss'])
+    sheet.update_cell(4 + int(day.strftime("%d")), 23, data['yda'])
+    sheet.update_cell(4 + int(day.strftime("%d")), 26, data['line'])
+    sheet.update_cell(4 + int(day.strftime("%d")), 29, data['tiktok'])
 
 
 ### main_script ###
@@ -183,7 +187,7 @@ if __name__ == '__main__':
 
     r = 1
     if len(sys.argv) > 1:
-        r = 6
+        r = 15
 
     code = dict()
     try:
