@@ -178,7 +178,7 @@ def writeOrderData(data, day):
     sheet.update_cell(4 + int(day.strftime("%d")), 19, data['gdn'])
     sheet.update_cell(4 + int(day.strftime("%d")), 22, data['yss'])
     sheet.update_cell(4 + int(day.strftime("%d")), 25, data['yda'])
-    #sheet.update_cell(4 + int(day.strftime("%d")), 28, data['line'])
+    sheet.update_cell(4 + int(day.strftime("%d")), 28, data['line'])
     sheet.update_cell(4 + int(day.strftime("%d")), 31, data['tiktok'])
 
 
