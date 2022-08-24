@@ -147,7 +147,7 @@ def getAchievementData(data, day):
             res['yda'] += int(item[cnt])
         elif re.search('gdn', code[id], re.IGNORECASE):
             res['gdn'] += int(item[cnt])
-        elif re.search('line', code[id], re.IGNORECASE):
+        elif re.search(r'line|lap', code[id], re.IGNORECASE):
             res['line'] += int(item[cnt])
         elif re.search('tiktok', code[id], re.IGNORECASE):
             res['tiktok'] += int(item[cnt])
