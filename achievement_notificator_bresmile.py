@@ -247,6 +247,7 @@ if __name__ == '__main__':
             sendChatworkNotification(message, 'BRESMILE')
 
         logger.info("achievement_notificator: Finish")
+        handler.close()
         os.remove(f'log/{today.strftime("%Y-%m-%d")}_result.log')
         exit(0)
     except Exception as err:
