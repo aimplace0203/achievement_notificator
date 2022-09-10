@@ -115,7 +115,7 @@ def getDataFromLinkA(downloadsDirPath, d):
 
 def getCsvPathLinkA(dirPath, d):
     os.makedirs(dirPath, exist_ok=True)
-    #getDataFromLinkA(dirPath, d)
+    getDataFromLinkA(dirPath, d)
 
     csvPath = getLatestDownloadedFileName(dirPath)
     logger.info(f"achievement_notificator: download completed: {csvPath}")
