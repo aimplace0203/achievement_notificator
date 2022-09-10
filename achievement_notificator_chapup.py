@@ -429,6 +429,8 @@ if __name__ == '__main__':
         if sys.argv[1] == 'cleanup':
             shutil.rmtree('./csv/chapup/')
             shutil.rmtree('./data/chapup/')
+            shutil.rmtree('./csv/bresmile/')
+            shutil.rmtree('./data/bresmile/')
             exit(0)
 
     new = 0
