@@ -431,6 +431,9 @@ if __name__ == '__main__':
             shutil.rmtree('./data/chapup/')
             shutil.rmtree('./csv/bresmile/')
             shutil.rmtree('./data/bresmile/')
+            shutil.rmtree('./csv/linka/')
+            shutil.rmtree('./csv/afb/')
+            shutil.rmtree('./data/afb/')
             exit(0)
 
     new = 0
