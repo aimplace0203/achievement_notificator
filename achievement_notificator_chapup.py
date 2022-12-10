@@ -427,13 +427,20 @@ if __name__ == '__main__':
 
     if len(sys.argv) > 1:
         if sys.argv[1] == 'cleanup':
-            shutil.rmtree('./csv/chapup/')
-            shutil.rmtree('./data/chapup/')
-            shutil.rmtree('./csv/bresmile/')
-            shutil.rmtree('./data/bresmile/')
-            shutil.rmtree('./csv/linka/')
-            shutil.rmtree('./csv/afb/')
-            shutil.rmtree('./data/afb/')
+            if os.path.exists('./csv/chapup/'):
+                shutil.rmtree('./csv/chapup/')
+            if os.path.exists('./data/chapup/'):
+                shutil.rmtree('./data/chapup/')
+            if os.path.exists('./csv/bresmile/'):
+                shutil.rmtree('./csv/bresmile/')
+            if os.path.exists('./data/bresmile/'):
+                shutil.rmtree('./data/bresmile/')
+            if os.path.exists('./csv/linka/'):
+                shutil.rmtree('./csv/linka/')
+            if os.path.exists('./csv/afb/'):
+                shutil.rmtree('./csv/afb/')
+            if os.path.exists('./data/afb/'):
+                shutil.rmtree('./data/afb/')
             exit(0)
 
     new = 0
