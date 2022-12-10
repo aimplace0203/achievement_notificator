@@ -437,10 +437,6 @@ if __name__ == '__main__':
                 shutil.rmtree('./data/bresmile/')
             if os.path.exists('./csv/linka/'):
                 shutil.rmtree('./csv/linka/')
-            if os.path.exists('./csv/afb/'):
-                shutil.rmtree('./csv/afb/')
-            if os.path.exists('./data/afb/'):
-                shutil.rmtree('./data/afb/')
             exit(0)
 
     new = 0
