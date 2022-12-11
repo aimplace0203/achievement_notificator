@@ -318,6 +318,9 @@ def importCsvFromMedia(downloadsDirPath, uname, domain):
         select = Select(dropdown)
         select.select_by_value(str(today.day))
 
+        driver.find_element_by_name('kikan').click()
+        sleep(5)
+
         soup = BeautifulSoup(driver.page_source, "html.parser")
         els = iter(soup.find_all("td", align="center"))
         global code
@@ -329,8 +332,6 @@ def importCsvFromMedia(downloadsDirPath, uname, domain):
             except StopIteration:
                 break
 
-        driver.find_element_by_name('kikan').click()
-        sleep(3)
         driver.find_element_by_name('csv').click()
         logger.info('importCsvFromMedia: Complete download')
         sleep(3)
