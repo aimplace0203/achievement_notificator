@@ -89,8 +89,7 @@ def importCsvFromChapup(downloadsDirPath, day):
         sleep(3)
 
         global code
-        nxt = True
-        while nxt:
+        while True:
             soup = BeautifulSoup(driver.page_source, "html.parser")
             els = iter(soup.find_all("td", align="center"))
             while True:
@@ -100,9 +99,10 @@ def importCsvFromChapup(downloadsDirPath, day):
                     code[id] = name
                 except StopIteration:
                     break
-
-            nxt = driver.find_element(By.LINK_TEXT, '次へ>>')
-            nxt.click()
+            try:
+                driver.find_element(By.LINK_TEXT, '次へ>>').click()
+            except NoSuchElementException:
+                break
 
         driver.close()
         driver.quit()
