@@ -13,6 +13,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.common.by import By
 from fake_useragent import UserAgent
 from webdriver_manager.chrome import ChromeDriverManager
 from oauth2client.service_account import ServiceAccountCredentials
@@ -87,16 +88,21 @@ def importCsvFromChapup(downloadsDirPath, day):
         logger.info('importCsvFromChapup: Complete download')
         sleep(3)
 
-        soup = BeautifulSoup(driver.page_source, "html.parser")
-        els = iter(soup.find_all("td", align="center"))
         global code
-        while True:
-            try:
-                id = next(els).text
-                name = re.sub('^LI_', '', next(els).text)
-                code[id] = name
-            except StopIteration:
-                break
+        nxt = True
+        while nxt:
+            soup = BeautifulSoup(driver.page_source, "html.parser")
+            els = iter(soup.find_all("td", align="center"))
+            while True:
+                try:
+                    id = next(els).text
+                    name = re.sub('^LI_', '', next(els).text)
+                    code[id] = name
+                except StopIteration:
+                    break
+
+            nxt = driver.find_element(By.LINK_TEXT, '次へ>>')
+            nxt.click()
 
         driver.close()
         driver.quit()
