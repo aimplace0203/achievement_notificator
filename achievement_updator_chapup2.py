@@ -48,7 +48,7 @@ def importCsvFromAfb(downloadsDirPath, d):
     logger.debug(f'importCsvFromAfb: UserAgent: {ua.chrome}')
 
     options = Options()
-    options.add_argument('--headless')
+    #options.add_argument('--headless')
     options.add_argument(f'user-agent={ua.chrome}')
 
     prefs = {
@@ -108,7 +108,7 @@ def getDataFromLinkA(d):
     logger.debug(f'importCsvFromLinkA: UserAgent: {ua.chrome}')
 
     options = Options()
-    options.add_argument('--headless')
+    #options.add_argument('--headless')
     options.add_argument(f'user-agent={ua.chrome}')
 
     try:

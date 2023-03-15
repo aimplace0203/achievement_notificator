@@ -40,7 +40,7 @@ def importCsvFromChapup(downloadsDirPath, day):
     logger.debug(f'importCsvFromBresmile: UserAgent: {ua.chrome}')
 
     options = Options()
-    options.add_argument('--headless')
+    #options.add_argument('--headless')
     options.add_argument(f'user-agent={ua.chrome}')
 
     prefs = {

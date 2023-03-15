@@ -65,7 +65,7 @@ def importCsvFromMedia(downloadsDirPath, uname, domain):
     logger.debug(f'importCsvFromMedia: UserAgent: {ua.chrome}')
 
     options = Options()
-    options.add_argument('--headless')
+    #options.add_argument('--headless')
     options.add_argument(f'user-agent={ua.chrome}')
 
     prefs = {
