@@ -78,7 +78,7 @@ def importCsvFromAfb(downloadsDirPath, d):
         driver.find_element(By.CLASS_NAME, 'chzn-single').click()
         driver.implicitly_wait(30)
         sites = driver.find_element(By.CLASS_NAME, 'chzn-results')
-        options = sites.find_elements_by_class_name('active-result')
+        options = sites.find_elements(By.CLASS_NAME, 'active-result')
         for option in options:
             if re.search('806580', option.text):
                 option.click()
@@ -126,7 +126,7 @@ def getDataFromLinkA(d):
         driver.get('https://link-ag.net/partner/achievements')
         driver.implicitly_wait(30)
 
-        driver.find_elements_by_id('occurrence_time_occurrence_time')[d].click()
+        driver.find_elements(By.ID, 'occurrence_time_occurrence_time')[d].click()
         driver.implicitly_wait(30)
 
         logger.info('importCsvFromLinkA: select date range')

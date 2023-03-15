@@ -91,7 +91,7 @@ def getDataFromLinkA(downloadsDirPath, d):
         driver.get('https://link-ag.net/partner/achievements')
         driver.implicitly_wait(30)
 
-        driver.find_elements_by_id('occurrence_time_occurrence_time')[d].click()
+        driver.find_elements(By.ID, 'occurrence_time_occurrence_time')[d].click()
         driver.implicitly_wait(30)
 
         logger.info('importCsvFromLinkA: select date range')
@@ -277,7 +277,7 @@ def importCsvFromMedia(downloadsDirPath, uname, domain):
     logger.debug(f'importCsvFromMedia: UserAgent: {ua.chrome}')
 
     options = Options()
-    options.add_argument('--headless')
+    #options.add_argument('--headless')
     options.add_argument(f'user-agent={ua.chrome}')
 
     prefs = {
