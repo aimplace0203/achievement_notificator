@@ -13,6 +13,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 from fake_useragent import UserAgent
 from webdriver_manager.chrome import ChromeDriverManager
 from oauth2client.service_account import ServiceAccountCredentials
@@ -64,18 +66,18 @@ def importCsvFromAfb(downloadsDirPath, d):
         driver.maximize_window()
         driver.implicitly_wait(30)
 
-        driver.find_element_by_xpath('//input[@name="login_name"]').send_keys(login)
-        driver.find_element_by_xpath('//input[@name="password"]').send_keys(password)
-        driver.find_element_by_xpath('//button[@type="submit"]').click()
+        driver.find_element(By.XPATH, '//input[@name="login_name"]').send_keys(login)
+        driver.find_element(By.XPATH, '//input[@name="password"]').send_keys(password)
+        driver.find_element(By.XPATH, '//button[@type="submit"]').click()
 
         logger.debug('importCsvFromAfb: afb login')
         driver.implicitly_wait(60)
         
-        driver.find_element_by_xpath('//a[@href="/pa/result/"]').click()
+        driver.find_element(By.XPATH, '//a[@href="/pa/result/"]').click()
         driver.implicitly_wait(30)
-        driver.find_element_by_class_name('chzn-single').click()
+        driver.find_element(By.CLASS_NAME, 'chzn-single').click()
         driver.implicitly_wait(30)
-        sites = driver.find_element_by_class_name('chzn-results')
+        sites = driver.find_element(By.CLASS_NAME, 'chzn-results')
         options = sites.find_elements_by_class_name('active-result')
         for option in options:
             if re.search('806580', option.text):
@@ -84,11 +86,11 @@ def importCsvFromAfb(downloadsDirPath, d):
         logger.info('importCsvFromAfb: select site')
         driver.implicitly_wait(30)
 
-        driver.find_element_by_xpath(f'//input[@value="{da}"]').click()
+        driver.find_element(By.XPATH, f'//input[@value="{da}"]').click()
         logger.info('importCsvFromAfb: select date range')
         driver.implicitly_wait(30)
 
-        driver.find_element_by_xpath('//input[@src="/assets/img/report/btn_original_csv.gif"]').click()
+        driver.find_element(By.XPATH, '//input[@src="/assets/img/report/btn_original_csv.gif"]').click()
         sleep(10)
 
         driver.close()
@@ -116,9 +118,9 @@ def getDataFromLinkA(d):
         driver.maximize_window()
         driver.implicitly_wait(30)
 
-        driver.find_element_by_id('login_id').send_keys(login)
-        driver.find_element_by_id('password').send_keys(password)
-        driver.find_element_by_xpath('//input[@type="submit"]').click()
+        driver.find_element(By.ID, 'login_id').send_keys(login)
+        driver.find_element(By.ID, 'password').send_keys(password)
+        driver.find_element(By.XPATH, '//input[@type="submit"]').click()
 
         logger.debug('importCsvFromLinkA: linka login')
         driver.get('https://link-ag.net/partner/achievements')
@@ -130,15 +132,15 @@ def getDataFromLinkA(d):
         logger.info('importCsvFromLinkA: select date range')
         driver.implicitly_wait(30)
 
-        driver.find_element_by_xpath('//input[@value="検索"]').click()
+        driver.find_element(By.XPATH, '//input[@value="検索"]').click()
         driver.implicitly_wait(30)
 
-        dropdown = driver.find_element_by_id("separator")
+        dropdown = driver.find_element(By.ID, "separator")
         select = Select(dropdown)
         select.select_by_value('comma')
         driver.implicitly_wait(30)
 
-        text = driver.find_element_by_class_name('partnerMain-scroll').text
+        text = driver.find_element(By.CLASS_NAME, 'partnerMain-scroll').text
         driver.close()
         driver.quit()
 

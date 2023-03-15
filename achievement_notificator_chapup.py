@@ -12,6 +12,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 from fake_useragent import UserAgent
 from webdriver_manager.chrome import ChromeDriverManager
 
@@ -81,9 +83,9 @@ def getDataFromLinkA(downloadsDirPath, d):
         driver.maximize_window()
         driver.implicitly_wait(30)
 
-        driver.find_element_by_id('login_id').send_keys(login)
-        driver.find_element_by_id('password').send_keys(password)
-        driver.find_element_by_xpath('//input[@type="submit"]').click()
+        driver.find_element(By.ID, 'login_id').send_keys(login)
+        driver.find_element(By.ID, 'password').send_keys(password)
+        driver.find_element(By.XPATH, '//input[@type="submit"]').click()
 
         logger.debug('importCsvFromLinkA: linka login')
         driver.get('https://link-ag.net/partner/achievements')
@@ -95,15 +97,15 @@ def getDataFromLinkA(downloadsDirPath, d):
         logger.info('importCsvFromLinkA: select date range')
         driver.implicitly_wait(30)
 
-        driver.find_element_by_xpath('//input[@value="検索"]').click()
+        driver.find_element(By.XPATH, '//input[@value="検索"]').click()
         driver.implicitly_wait(30)
 
-        dropdown = driver.find_element_by_id("separator")
+        dropdown = driver.find_element(By.ID, "separator")
         select = Select(dropdown)
         select.select_by_value('comma')
         driver.implicitly_wait(30)
 
-        driver.find_element_by_class_name('partnerMain-btn.partnerMain-btn-md.partnerMain-btn').click()
+        driver.find_element(By.CLASS_NAME, 'partnerMain-btn.partnerMain-btn-md.partnerMain-btn').click()
         logger.info('getDataFromLinkA: Complete download')
         sleep(3)
 
@@ -294,31 +296,31 @@ def importCsvFromMedia(downloadsDirPath, uname, domain):
         sleep(3)
         driver.implicitly_wait(30)
 
-        dropdown = driver.find_element_by_name('search_startyear')
+        dropdown = driver.find_element(By.NAME, 'search_startyear')
         select = Select(dropdown)
         select.select_by_value(str(today.year))
 
-        dropdown = driver.find_element_by_name('search_startmonth')
+        dropdown = driver.find_element(By.NAME, 'search_startmonth')
         select = Select(dropdown)
         select.select_by_value(str(today.month))
 
-        dropdown = driver.find_element_by_name('search_startday')
+        dropdown = driver.find_element(By.NAME, 'search_startday')
         select = Select(dropdown)
         select.select_by_value(str(today.day))
 
-        dropdown = driver.find_element_by_name('search_endyear')
+        dropdown = driver.find_element(By.NAME, 'search_endyear')
         select = Select(dropdown)
         select.select_by_value(str(today.year))
 
-        dropdown = driver.find_element_by_name('search_endmonth')
+        dropdown = driver.find_element(By.NAME, 'search_endmonth')
         select = Select(dropdown)
         select.select_by_value(str(today.month))
 
-        dropdown = driver.find_element_by_name('search_endday')
+        dropdown = driver.find_element(By.NAME, 'search_endday')
         select = Select(dropdown)
         select.select_by_value(str(today.day))
 
-        driver.find_element_by_name('kikan').click()
+        driver.find_element(By.NAME, 'kikan').click()
         sleep(5)
 
         soup = BeautifulSoup(driver.page_source, "html.parser")
@@ -332,7 +334,7 @@ def importCsvFromMedia(downloadsDirPath, uname, domain):
             except StopIteration:
                 break
 
-        driver.find_element_by_name('csv').click()
+        driver.find_element(By.NAME, 'csv').click()
         logger.info('importCsvFromMedia: Complete download')
         sleep(3)
 

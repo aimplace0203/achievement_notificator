@@ -12,6 +12,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 from fake_useragent import UserAgent
 from webdriver_manager.chrome import ChromeDriverManager
 
@@ -82,27 +84,27 @@ def importCsvFromMedia(downloadsDirPath, uname, domain):
         sleep(3)
         driver.implicitly_wait(30)
 
-        dropdown = driver.find_element_by_name('search_startyear')
+        dropdown = driver.find_element(By.NAME, 'search_startyear')
         select = Select(dropdown)
         select.select_by_value(str(today.year))
 
-        dropdown = driver.find_element_by_name('search_startmonth')
+        dropdown = driver.find_element(By.NAME, 'search_startmonth')
         select = Select(dropdown)
         select.select_by_value(str(today.month))
 
-        dropdown = driver.find_element_by_name('search_startday')
+        dropdown = driver.find_element(By.NAME, 'search_startday')
         select = Select(dropdown)
         select.select_by_value(str(today.day))
 
-        dropdown = driver.find_element_by_name('search_endyear')
+        dropdown = driver.find_element(By.NAME, 'search_endyear')
         select = Select(dropdown)
         select.select_by_value(str(today.year))
 
-        dropdown = driver.find_element_by_name('search_endmonth')
+        dropdown = driver.find_element(By.NAME, 'search_endmonth')
         select = Select(dropdown)
         select.select_by_value(str(today.month))
 
-        dropdown = driver.find_element_by_name('search_endday')
+        dropdown = driver.find_element(By.NAME, 'search_endday')
         select = Select(dropdown)
         select.select_by_value(str(today.day))
 
@@ -117,9 +119,9 @@ def importCsvFromMedia(downloadsDirPath, uname, domain):
             except StopIteration:
                 break
 
-        driver.find_element_by_name('kikan').click()
+        driver.find_element(By.NAME, 'kikan').click()
         sleep(3)
-        driver.find_element_by_name('csv').click()
+        driver.find_element(By.NAME, 'csv').click()
         logger.info('importCsvFromMedia: Complete download')
         sleep(3)
 

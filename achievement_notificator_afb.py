@@ -12,6 +12,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 from fake_useragent import UserAgent
 from webdriver_manager.chrome import ChromeDriverManager
 
@@ -55,24 +57,24 @@ def importCsvFromAfb(downloadsDirPath):
         sleep(3)
         driver.implicitly_wait(30)
 
-        driver.find_element_by_xpath('//input[@name="login_name"]').send_keys(login)
-        driver.find_element_by_xpath('//input[@name="password"]').send_keys(password)
-        driver.find_element_by_xpath('//button[@type="submit"]').click()
+        driver.find_element(By.XPATH, '//input[@name="login_name"]').send_keys(login)
+        driver.find_element(By.XPATH, '//input[@name="password"]').send_keys(password)
+        driver.find_element(By.XPATH, '//button[@type="submit"]').click()
 
         logger.debug('importCsvFromAfb: afb login')
         sleep(3)
         driver.implicitly_wait(60)
         
-        driver.find_element_by_xpath('//a[@href="/pa/result/"]').click()
+        driver.find_element(By.XPATH, '//a[@href="/pa/result/"]').click()
         sleep(3)
         driver.implicitly_wait(30)
 
-        driver.find_element_by_xpath(f'//input[@value="td"]').click()
+        driver.find_element(By.XPATH, f'//input[@value="td"]').click()
         logger.info('importCsvFromAfb: select date range')
         sleep(3)
         driver.implicitly_wait(30)
 
-        driver.find_element_by_xpath('//input[@src="/assets/img/report/btn_original_csv.gif"]').click()
+        driver.find_element(By.XPATH, '//input[@src="/assets/img/report/btn_original_csv.gif"]').click()
         sleep(5)
 
         driver.close()
