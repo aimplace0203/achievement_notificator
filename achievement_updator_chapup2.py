@@ -71,10 +71,11 @@ def importCsvFromAfb(downloadsDirPath, d):
         driver.find_element(By.XPATH, '//button[@type="submit"]').click()
 
         logger.debug('importCsvFromAfb: afb login')
-        driver.implicitly_wait(60)
+        sleep(3)
         
-        driver.find_element(By.XPATH, '//a[@href="/pa/result/"]').click()
+        driver.get('https://www.afi-b.com/pa/result/')
         driver.implicitly_wait(30)
+
         driver.find_element(By.CLASS_NAME, 'chzn-single').click()
         driver.implicitly_wait(30)
         sites = driver.find_element(By.CLASS_NAME, 'chzn-results')

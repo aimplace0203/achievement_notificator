@@ -63,15 +63,8 @@ def importCsvFromAfb(downloadsDirPath):
 
         logger.debug('importCsvFromAfb: afb login')
         sleep(3)
-
-        try:
-            driver.implicitly_wait(10)
-            driver.find_element(By.ID, 'cp-alert"]').click()
-        except NoSuchElementException:
-            pass
         
-        driver.implicitly_wait(30)
-        driver.find_element(By.XPATH, '//a[@href="/pa/result/"]').click()
+        driver.get('https://www.afi-b.com/pa/result/')
         sleep(3)
         driver.implicitly_wait(30)
 
